@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./styles.css";
+import { CheckBoxProps, NumberBooleanMap, TreeNode } from "./interfaces/interfaces";
 
-const data = [
+const data: TreeNode[] = [
   {
     id: 1,
     name: "Fruits",
@@ -50,15 +51,15 @@ const data = [
   },
 ];
 
-const CheckBoxs = ({ data, counter = -1, checked, setChecked, fullData }) => {
+const CheckBoxs = ({ data, counter = -1, checked, setChecked, fullData }: CheckBoxProps) => {
   counter = counter + 1;
 
-  const handleChange = (e, node, fullData) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, node: TreeNode, fullData: TreeNode[]) => {
     setChecked((prev) => {
       let updated = { ...prev, [node.id]: e.target.checked };
 
       //update all the below childrens if childrens exits.
-      let updateChildrens = (node) => {
+      let updateChildrens = (node: TreeNode) => {
         if (node.childrens && node.childrens.length > 0) {
           node.childrens.forEach((child) => {
             updated = { ...updated, [child.id]: e.target.checked };
@@ -69,7 +70,7 @@ const CheckBoxs = ({ data, counter = -1, checked, setChecked, fullData }) => {
 
       updateChildrens(node);
 
-      const traverseTree = (nodes) => {
+      const traverseTree = (nodes: TreeNode[]) => {
         for (let node of nodes) {
           traverseTree(node.childrens);
           //after traverse all the children
@@ -77,7 +78,7 @@ const CheckBoxs = ({ data, counter = -1, checked, setChecked, fullData }) => {
         }
       };
 
-      const checkNodeChild = (node) => {
+      const checkNodeChild = (node: TreeNode) => {
         console.log("node", node);
         if (node.childrens.length > 0) {
           let isChecked = true;
@@ -106,7 +107,7 @@ const CheckBoxs = ({ data, counter = -1, checked, setChecked, fullData }) => {
           <input
             type="checkbox"
             checked={checked[item.id] || false}
-            onChange={(e) => handleChange(e, item, fullData)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, item, fullData)}
           />
           <span>{item.name}</span>
           {item.childrens && (
@@ -125,7 +126,7 @@ const CheckBoxs = ({ data, counter = -1, checked, setChecked, fullData }) => {
 };
 
 export default function App() {
-  const [checked, setChecked] = useState({});
+  const [checked, setChecked] = useState<NumberBooleanMap>({});
 
   return (
     <div className="App">
