@@ -1,2 +1,1 @@
-# checkbox-dropdown
-Created with CodeSandbox
+multi dropdown with checkboxes
